@@ -11,7 +11,7 @@
         <vm:MainViewModel />
     </Window.DataContext>
 
-    <DockPanel>
+    <DockPanel LastChildFill="True">
         <StackPanel DockPanel.Dock="Top" Margin="24 24 24 0">
             <TextBlock Text="CalculadoraX"
                        FontSize="34"
@@ -19,6 +19,13 @@
             <TextBlock Text="Orden de compra, boleta de honorarios y conversión de monedas en un solo lugar."
                        Margin="0 4 0 24" />
         </StackPanel>
+
+        <TextBlock Text="Desarrollado por Andrés Amaya Garcés"
+                   FontSize="12"
+                   Foreground="#66000000"
+                   HorizontalAlignment="Right"
+                   Margin="0 0 24 12"
+                   DockPanel.Dock="Bottom" />
 
         <TabControl Margin="24"
                     HorizontalContentAlignment="Stretch">
@@ -32,12 +39,5 @@
                 <views:CurrencyConverterView DataContext="{Binding CurrencyViewModel}" />
             </TabItem>
         </TabControl>
-
-        <TextBlock Text="Desarrollado por Andrés Amaya Garcés"
-                   FontSize="12"
-                   Foreground="#66000000"
-                   HorizontalAlignment="Right"
-                   Margin="0 0 16 16"
-                   DockPanel.Dock="Bottom" />
     </DockPanel>
 </Window>

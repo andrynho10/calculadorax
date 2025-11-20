@@ -135,7 +135,7 @@ public class CurrencyConverterViewModel : ObservableObject
         {
             var display = entry.Key == CurrencyCode.CLP
                 ? "1"
-                : string.Format(_culture, "{0:N4}", entry.Value);
+                : string.Format(_culture, "{0:N2}", entry.Value);
             ReferenceRates.Add(new CurrencyDisplayRate(entry.Key, display));
         }
     }

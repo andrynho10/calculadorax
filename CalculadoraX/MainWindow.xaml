@@ -4,8 +4,8 @@
         xmlns:views="clr-namespace:CalculadoraX.Views"
         xmlns:vm="clr-namespace:CalculadoraX.ViewModels"
         Title="CalculadoraX"
-        Width="1100"
-        Height="720"
+        Width="1150"
+        Height="780"
         WindowStartupLocation="CenterScreen">
     <Window.DataContext>
         <vm:MainViewModel />

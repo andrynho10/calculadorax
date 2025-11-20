@@ -54,6 +54,11 @@
                 <TextBlock Text="Referencias del día" FontSize="20" FontWeight="SemiBold" DockPanel.Dock="Left" />
             </DockPanel>
             <ItemsControl ItemsSource="{Binding ReferenceRates}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <UniformGrid Columns="2" />
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Border Style="{StaticResource CardStyle}">

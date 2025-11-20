@@ -9,6 +9,7 @@ namespace CalculadoraX.ViewModels;
 public class CurrencyConverterViewModel : ObservableObject
 {
     private readonly ICurrencyService _currencyService;
+    private readonly IClipboardService _clipboardService;
     private readonly CultureInfo _culture = new("es-CL");
 
     private string _inputAmount = "1";
@@ -18,15 +19,18 @@ public class CurrencyConverterViewModel : ObservableObject
     private string _lastUpdated = "—";
     private string? _errorMessage;
     private bool _isBusy;
+    private CurrencyConversionResult? _lastResult;
 
-    public CurrencyConverterViewModel(ICurrencyService? currencyService = null)
+    public CurrencyConverterViewModel(ICurrencyService? currencyService = null, IClipboardService? clipboardService = null)
     {
         _currencyService = currencyService ?? new MindicadorCurrencyService();
+        _clipboardService = clipboardService ?? new ClipboardService();
         AvailableCurrencies = Enum.GetValues<CurrencyCode>();
         ReferenceRates = new ObservableCollection<CurrencyDisplayRate>();
 
         ConvertCommand = new AsyncRelayCommand(_ => ConvertAsync());
         RefreshCommand = new AsyncRelayCommand(_ => RefreshRatesAsync(true));
+        CopyResultCommand = new RelayCommand(_ => CopyResult(), _ => _lastResult is not null);
     }
 
     public Array AvailableCurrencies { get; }
@@ -41,13 +45,31 @@ public class CurrencyConverterViewModel : ObservableObject
     public CurrencyCode SourceCurrency
     {
         get => _sourceCurrency;
-        set => SetProperty(ref _sourceCurrency, value);
+        set
+        {
+            if (_sourceCurrency == value) return;
+            var previous = _sourceCurrency;
+            SetProperty(ref _sourceCurrency, value);
+            if (_targetCurrency == _sourceCurrency)
+            {
+                TargetCurrency = previous;
+            }
+        }
     }
 
     public CurrencyCode TargetCurrency
     {
         get => _targetCurrency;
-        set => SetProperty(ref _targetCurrency, value);
+        set
+        {
+            if (_targetCurrency == value) return;
+            var previous = _targetCurrency;
+            SetProperty(ref _targetCurrency, value);
+            if (_sourceCurrency == _targetCurrency)
+            {
+                SourceCurrency = previous;
+            }
+        }
     }
 
     public string ResultText
@@ -76,6 +98,7 @@ public class CurrencyConverterViewModel : ObservableObject
 
     public ICommand ConvertCommand { get; }
     public ICommand RefreshCommand { get; }
+    public RelayCommand CopyResultCommand { get; }
 
     public async Task InitializeAsync()
     {
@@ -96,11 +119,15 @@ public class CurrencyConverterViewModel : ObservableObject
             var result = await _currencyService.ConvertAsync(amount, SourceCurrency, TargetCurrency, false);
             ResultText = string.Format(_culture, "{0:N4}", result.TargetAmount);
             LastUpdated = result.RetrievedAt.ToLocalTime().ToString("g", _culture);
+            _lastResult = result;
             ErrorMessage = null;
+            CopyResultCommand.RaiseCanExecuteChanged();
         }
         catch (Exception ex)
         {
             ErrorMessage = ex.Message;
+            _lastResult = null;
+            CopyResultCommand.RaiseCanExecuteChanged();
         }
         finally
         {
@@ -138,5 +165,12 @@ public class CurrencyConverterViewModel : ObservableObject
                 : string.Format(_culture, "{0:N2}", entry.Value);
             ReferenceRates.Add(new CurrencyDisplayRate(entry.Key, display));
         }
+    }
+
+    private void CopyResult()
+    {
+        if (_lastResult is null) return;
+        var text = _lastResult.TargetAmount.ToString("0.####", _culture);
+        _clipboardService.SetText(text);
     }
 }

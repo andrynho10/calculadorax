@@ -1,0 +1,65 @@
+<UserControl x:Class="CalculadoraX.Views.HonorariumView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Grid Margin="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.1*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Margin="0 0 24 0">
+            <TextBlock Text="Boleta de honorarios" FontSize="26" FontWeight="SemiBold" />
+            <TextBlock Text="Calcula el monto bruto, neto y la retención del 14,5 %." Margin="0 4 0 16" />
+
+            <StackPanel Orientation="Horizontal">
+                <RadioButton Content="Bruto"
+                             GroupName="HonorariumMode"
+                             Margin="0 0 12 0"
+                             Padding="12 8"
+                             FontSize="18"
+                             IsChecked="{Binding SelectedMode, Converter={StaticResource InputModeConverter}, ConverterParameter=Gross, Mode=TwoWay}" />
+                <RadioButton Content="Neto"
+                             GroupName="HonorariumMode"
+                             Padding="12 8"
+                             FontSize="18"
+                             IsChecked="{Binding SelectedMode, Converter={StaticResource InputModeConverter}, ConverterParameter=Net, Mode=TwoWay}" />
+            </StackPanel>
+
+            <TextBox Text="{Binding InputValue, UpdateSourceTrigger=PropertyChanged}" />
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
+                <Button Content="Calcular" Command="{Binding CalculateCommand}" />
+                <Button Content="Limpiar" Command="{Binding ClearCommand}" Background="{StaticResource SecondaryBrush}" />
+            </StackPanel>
+
+            <Border Background="#10FF0000"
+                    Padding="12"
+                    Margin="0 16 0 0"
+                    CornerRadius="8"
+                    Visibility="{Binding ErrorMessage, Converter={StaticResource StringToVisibilityConverter}}">
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="#FFB71C1C" />
+            </Border>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Monto bruto" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding GrossText}" FontSize="32" FontWeight="Bold" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Retención 14,5 %" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding RetentionText}" FontSize="32" FontWeight="Bold" />
+                </StackPanel>
+            </Border>
+            <Border Style="{StaticResource CardStyle}">
+                <StackPanel>
+                    <TextBlock Text="Monto neto (depósito)" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock Text="{Binding NetText}" FontSize="32" FontWeight="Bold" />
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>

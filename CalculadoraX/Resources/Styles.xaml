@@ -41,6 +41,7 @@
     <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="#FF3D5AFE" />
         <Setter Property="Foreground" Value="#FFFFFFFF" />
+        <Setter Property="TextElement.Foreground" Value="#FFFFFFFF" />
         <Setter Property="BorderBrush" Value="#FF1A237E" />
         <Setter Property="BorderThickness" Value="1" />
     </Style>
@@ -48,6 +49,7 @@
     <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
         <Setter Property="Background" Value="#FFF3F4FF" />
         <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource TextBrush}" />
         <Setter Property="BorderBrush" Value="#FF3D5AFE" />
         <Setter Property="BorderThickness" Value="1" />
     </Style>

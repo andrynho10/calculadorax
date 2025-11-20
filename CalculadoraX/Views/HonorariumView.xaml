@@ -1,6 +1,9 @@
 <UserControl x:Class="CalculadoraX.Views.HonorariumView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <UserControl.InputBindings>
+        <KeyBinding Key="Enter" Command="{Binding CalculateCommand}" />
+    </UserControl.InputBindings>
     <Grid Margin="12">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.1*" />

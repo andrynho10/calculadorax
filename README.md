@@ -1,6 +1,6 @@
 # CalculadoraX
 
-Aplicación WPF para calcular órdenes de compra, boletas de honorarios y conversiones de moneda.
+Aplicación WPF para calcular bruto o neto en órdenes de compra t boletas de honorarios, y además un módulo de conversiones de las monedas que más usamos.
 
 ## Requisitos
 

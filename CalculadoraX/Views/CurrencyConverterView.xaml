@@ -20,7 +20,8 @@
                 <TextBox Width="200"
                          Text="{Binding InputAmount, UpdateSourceTrigger=PropertyChanged}"
                          behaviors:InputBehaviors.FocusOnVisible="True"
-                         behaviors:InputBehaviors.SelectAllOnFocus="True" />
+                         behaviors:InputBehaviors.SelectAllOnFocus="True"
+                         behaviors:InputBehaviors.NumericOnly="True" />
                 <ComboBox Margin="12 0 0 0"
                           Width="Auto"
                           MinWidth="100"

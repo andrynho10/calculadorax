@@ -33,7 +33,8 @@
 
             <TextBox Text="{Binding InputValue, UpdateSourceTrigger=PropertyChanged}"
                      behaviors:InputBehaviors.FocusOnVisible="True"
-                     behaviors:InputBehaviors.SelectAllOnFocus="True" />
+                     behaviors:InputBehaviors.SelectAllOnFocus="True"
+                     behaviors:InputBehaviors.NumericOnly="True" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Content="Calcular"

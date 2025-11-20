@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -21,6 +22,13 @@ public static class InputBehaviors
             typeof(InputBehaviors),
             new PropertyMetadata(false, OnSelectAllOnFocusChanged));
 
+    public static readonly DependencyProperty NumericOnlyProperty =
+        DependencyProperty.RegisterAttached(
+            "NumericOnly",
+            typeof(bool),
+            typeof(InputBehaviors),
+            new PropertyMetadata(false, OnNumericOnlyChanged));
+
     public static bool GetFocusOnVisible(DependencyObject obj) => (bool)obj.GetValue(FocusOnVisibleProperty);
 
     public static void SetFocusOnVisible(DependencyObject obj, bool value) => obj.SetValue(FocusOnVisibleProperty, value);
@@ -28,6 +36,10 @@ public static class InputBehaviors
     public static bool GetSelectAllOnFocus(DependencyObject obj) => (bool)obj.GetValue(SelectAllOnFocusProperty);
 
     public static void SetSelectAllOnFocus(DependencyObject obj, bool value) => obj.SetValue(SelectAllOnFocusProperty, value);
+
+    public static bool GetNumericOnly(DependencyObject obj) => (bool)obj.GetValue(NumericOnlyProperty);
+
+    public static void SetNumericOnly(DependencyObject obj, bool value) => obj.SetValue(NumericOnlyProperty, value);
 
     private static void OnFocusOnVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
@@ -59,6 +71,25 @@ public static class InputBehaviors
             {
                 textBox.GotKeyboardFocus -= TextBoxOnGotKeyboardFocus;
                 textBox.PreviewMouseLeftButtonDown -= TextBoxOnPreviewMouseLeftButtonDown;
+            }
+        }
+    }
+
+    private static void OnNumericOnlyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+    {
+        if (d is TextBox textBox)
+        {
+            if ((bool)e.NewValue)
+            {
+                textBox.PreviewTextInput += TextBoxOnPreviewTextInput;
+                DataObject.AddPastingHandler(textBox, OnPasteNumericOnly);
+                textBox.PreviewKeyDown += TextBoxOnPreviewKeyDown;
+            }
+            else
+            {
+                textBox.PreviewTextInput -= TextBoxOnPreviewTextInput;
+                DataObject.RemovePastingHandler(textBox, OnPasteNumericOnly);
+                textBox.PreviewKeyDown -= TextBoxOnPreviewKeyDown;
             }
         }
     }
@@ -100,5 +131,43 @@ public static class InputBehaviors
             e.Handled = true;
             textBox.Focus();
         }
+    }
+
+    private static void TextBoxOnPreviewTextInput(object sender, TextCompositionEventArgs e)
+    {
+        if (!IsTextNumeric(e.Text))
+        {
+            e.Handled = true;
+        }
+    }
+
+    private static void OnPasteNumericOnly(object sender, DataObjectPastingEventArgs e)
+    {
+        if (e.DataObject.GetDataPresent(DataFormats.Text))
+        {
+            var text = e.DataObject.GetData(DataFormats.Text)?.ToString() ?? string.Empty;
+            if (!IsTextNumeric(text))
+            {
+                e.CancelCommand();
+            }
+        }
+        else
+        {
+            e.CancelCommand();
+        }
+    }
+
+    private static void TextBoxOnPreviewKeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Space)
+        {
+            e.Handled = true;
+        }
+    }
+
+    private static bool IsTextNumeric(string? text)
+    {
+        if (string.IsNullOrEmpty(text)) return true;
+        return text.All(ch => char.IsDigit(ch) || ch == '.' || ch == ',' );
     }
 }

@@ -32,5 +32,12 @@
                 <views:CurrencyConverterView DataContext="{Binding CurrencyViewModel}" />
             </TabItem>
         </TabControl>
+
+        <TextBlock Text="Desarrollado por Andrés Amaya Garcés"
+                   FontSize="12"
+                   Foreground="#66000000"
+                   HorizontalAlignment="Right"
+                   Margin="0 0 16 16"
+                   DockPanel.Dock="Bottom" />
     </DockPanel>
 </Window>

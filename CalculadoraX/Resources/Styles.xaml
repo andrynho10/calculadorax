@@ -39,14 +39,20 @@
     </Style>
 
     <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
-        <Setter Property="Background" Value="#FF3D5AFE" />
-        <Setter Property="Foreground" Value="#FFFFFFFF" />
-        <Setter Property="TextElement.Foreground" Value="#FFFFFFFF" />
-        <Setter Property="BorderBrush" Value="#FF1A237E" />
+        <Setter Property="Background" Value="{StaticResource SecondaryBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource SecondaryBrush}" />
         <Setter Property="BorderThickness" Value="1" />
     </Style>
 
-    <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}" />
+    <Style x:Key="SecondaryButtonStyle" TargetType="Button" BasedOn="{StaticResource BaseButtonStyle}">
+        <Setter Property="Background" Value="{StaticResource CardBrush}" />
+        <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="TextElement.Foreground" Value="{StaticResource TextBrush}" />
+        <Setter Property="BorderBrush" Value="{StaticResource PrimaryBrush}" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
 
     <Style TargetType="Button" BasedOn="{StaticResource PrimaryButtonStyle}" />
 

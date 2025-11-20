@@ -58,9 +58,9 @@
 
     <Style TargetType="ComboBox">
         <Setter Property="Margin" Value="0 8 0 16" />
-        <Setter Property="Padding" Value="8 4" />
+        <Setter Property="Padding" Value="6 2" />
         <Setter Property="FontSize" Value="18" />
-        <Setter Property="MinWidth" Value="140" />
+        <Setter Property="MinWidth" Value="110" />
         <Setter Property="HorizontalAlignment" Value="Left" />
     </Style>
 

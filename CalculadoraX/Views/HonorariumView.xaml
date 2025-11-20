@@ -1,6 +1,7 @@
 <UserControl x:Class="CalculadoraX.Views.HonorariumView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:behaviors="clr-namespace:CalculadoraX.Behaviors">
     <UserControl.InputBindings>
         <KeyBinding Key="Enter" Command="{Binding CalculateCommand}" />
     </UserControl.InputBindings>
@@ -30,7 +31,9 @@
                              IsChecked="{Binding SelectedMode, Converter={StaticResource InputModeConverter}, ConverterParameter=Net, Mode=TwoWay}" />
             </StackPanel>
 
-            <TextBox Text="{Binding InputValue, UpdateSourceTrigger=PropertyChanged}" />
+            <TextBox Text="{Binding InputValue, UpdateSourceTrigger=PropertyChanged}"
+                     behaviors:InputBehaviors.FocusOnVisible="True"
+                     behaviors:InputBehaviors.SelectAllOnFocus="True" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                 <Button Content="Calcular"

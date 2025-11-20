@@ -31,17 +31,17 @@ public static class InputBehaviors
 
     private static void OnFocusOnVisibleChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is UIElement element)
+        if (d is FrameworkElement fe)
         {
             if ((bool)e.NewValue)
             {
-                element.Loaded += ElementOnLoaded;
-                element.IsVisibleChanged += ElementOnIsVisibleChanged;
+                fe.Loaded += ElementOnLoaded;
+                fe.IsVisibleChanged += ElementOnIsVisibleChanged;
             }
             else
             {
-                element.Loaded -= ElementOnLoaded;
-                element.IsVisibleChanged -= ElementOnIsVisibleChanged;
+                fe.Loaded -= ElementOnLoaded;
+                fe.IsVisibleChanged -= ElementOnIsVisibleChanged;
             }
         }
     }

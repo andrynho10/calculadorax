@@ -58,9 +58,10 @@
                         <Button Content="Copiar"
                                 Command="{Binding CopyGrossCommand}"
                                 DockPanel.Dock="Right"
-                                Padding="8 4"
+                                Padding="6 2"
                                 FontSize="14"
                                 Margin="8 0 0 0"
+                                MinWidth="0"
                                 Style="{StaticResource SecondaryButtonStyle}" />
                     </DockPanel>
                     <TextBlock Text="{Binding GrossText}" FontSize="32" FontWeight="Bold" />
@@ -73,9 +74,10 @@
                         <Button Content="Copiar"
                                 Command="{Binding CopyRetentionCommand}"
                                 DockPanel.Dock="Right"
-                                Padding="8 4"
+                                Padding="6 2"
                                 FontSize="14"
                                 Margin="8 0 0 0"
+                                MinWidth="0"
                                 Style="{StaticResource SecondaryButtonStyle}" />
                     </DockPanel>
                     <TextBlock Text="{Binding RetentionText}" FontSize="32" FontWeight="Bold" />
@@ -88,9 +90,10 @@
                         <Button Content="Copiar"
                                 Command="{Binding CopyNetCommand}"
                                 DockPanel.Dock="Right"
-                                Padding="8 4"
+                                Padding="6 2"
                                 FontSize="14"
                                 Margin="8 0 0 0"
+                                MinWidth="0"
                                 Style="{StaticResource SecondaryButtonStyle}" />
                     </DockPanel>
                     <TextBlock Text="{Binding NetText}" FontSize="32" FontWeight="Bold" />

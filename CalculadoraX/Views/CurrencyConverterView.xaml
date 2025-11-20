@@ -15,16 +15,20 @@
             <TextBlock Text="Trabajamos con CLP, UF, USD y EUR usando valores actualizados." Margin="0 4 0 16" />
 
             <TextBlock Text="Tengo" FontWeight="SemiBold" />
-            <DockPanel Margin="0 4 0 16">
+            <DockPanel Margin="0 4 0 16" LastChildFill="False">
                 <TextBox Width="200" Text="{Binding InputAmount, UpdateSourceTrigger=PropertyChanged}" />
                 <ComboBox Margin="12 0 0 0"
+                          Width="Auto"
+                          MinWidth="100"
                           ItemsSource="{Binding AvailableCurrencies}"
                           SelectedItem="{Binding SourceCurrency}"
                           HorizontalAlignment="Left" />
             </DockPanel>
 
             <TextBlock Text="Convertir a" FontWeight="SemiBold" />
-            <ComboBox ItemsSource="{Binding AvailableCurrencies}"
+            <ComboBox Width="Auto"
+                      MinWidth="100"
+                      ItemsSource="{Binding AvailableCurrencies}"
                       SelectedItem="{Binding TargetCurrency}" />
 
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">

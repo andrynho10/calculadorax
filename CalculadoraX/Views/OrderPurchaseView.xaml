@@ -20,11 +20,13 @@
                              Margin="0 0 12 0"
                              Padding="12 8"
                              FontSize="18"
+                             VerticalAlignment="Center"
                              IsChecked="{Binding SelectedMode, Converter={StaticResource InputModeConverter}, ConverterParameter=Gross, Mode=TwoWay}" />
                 <RadioButton Content="Neto"
                              GroupName="OrderMode"
                              Padding="12 8"
                              FontSize="18"
+                             VerticalAlignment="Center"
                              IsChecked="{Binding SelectedMode, Converter={StaticResource InputModeConverter}, ConverterParameter=Net, Mode=TwoWay}" />
             </StackPanel>
 

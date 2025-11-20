@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CalculadoraX.Models;
 using CalculadoraX.Services;
 using ModelInputMode = CalculadoraX.Models.InputMode;
@@ -19,6 +20,8 @@ public class OrderCalculationViewModel : ObservableObject
     private string _taxText = "—";
     private string? _errorMessage;
     private OrderCalculationResult? _lastResult;
+    private string? _copyFeedback;
+    private readonly DispatcherTimer _feedbackTimer;
 
     public OrderCalculationViewModel(OrderCalculationService? service = null, IClipboardService? clipboardService = null)
     {
@@ -29,6 +32,12 @@ public class OrderCalculationViewModel : ObservableObject
         CopyGrossCommand = new RelayCommand(_ => CopyAmount(_lastResult?.GrossAmount), _ => _lastResult is not null);
         CopyNetCommand = new RelayCommand(_ => CopyAmount(_lastResult?.NetAmount), _ => _lastResult is not null);
         CopyTaxCommand = new RelayCommand(_ => CopyAmount(_lastResult?.TaxAmount), _ => _lastResult is not null);
+        _feedbackTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+        _feedbackTimer.Tick += (_, _) =>
+        {
+            CopyFeedback = null;
+            _feedbackTimer.Stop();
+        };
     }
 
     public string InputValue
@@ -65,6 +74,12 @@ public class OrderCalculationViewModel : ObservableObject
     {
         get => _errorMessage;
         private set => SetProperty(ref _errorMessage, value);
+    }
+
+    public string? CopyFeedback
+    {
+        get => _copyFeedback;
+        private set => SetProperty(ref _copyFeedback, value);
     }
 
     public ICommand CalculateCommand { get; }
@@ -106,6 +121,7 @@ public class OrderCalculationViewModel : ObservableObject
         ErrorMessage = null;
         _lastResult = null;
         UpdateCopyCommands();
+        CopyFeedback = null;
     }
 
     private string FormatCurrency(decimal value) => string.Format(_culture, "{0:C0}", value);
@@ -123,6 +139,9 @@ public class OrderCalculationViewModel : ObservableObject
         if (amount is null) return;
         var text = amount.Value.ToString("0.##", CultureInfo.InvariantCulture);
         _clipboardService.SetText(text);
+        CopyFeedback = "Monto copiado";
+        _feedbackTimer.Stop();
+        _feedbackTimer.Start();
     }
 
     private void UpdateCopyCommands()

@@ -1,6 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CalculadoraX.Models;
 using CalculadoraX.Services;
 
@@ -20,6 +21,8 @@ public class CurrencyConverterViewModel : ObservableObject
     private string? _errorMessage;
     private bool _isBusy;
     private CurrencyConversionResult? _lastResult;
+    private string? _copyFeedback;
+    private readonly DispatcherTimer _feedbackTimer;
 
     public CurrencyConverterViewModel(ICurrencyService? currencyService = null, IClipboardService? clipboardService = null)
     {
@@ -31,6 +34,12 @@ public class CurrencyConverterViewModel : ObservableObject
         ConvertCommand = new AsyncRelayCommand(_ => ConvertAsync());
         RefreshCommand = new AsyncRelayCommand(_ => RefreshRatesAsync(true));
         CopyResultCommand = new RelayCommand(_ => CopyResult(), _ => _lastResult is not null);
+        _feedbackTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+        _feedbackTimer.Tick += (_, _) =>
+        {
+            CopyFeedback = null;
+            _feedbackTimer.Stop();
+        };
     }
 
     public Array AvailableCurrencies { get; }
@@ -96,6 +105,12 @@ public class CurrencyConverterViewModel : ObservableObject
         private set => SetProperty(ref _isBusy, value);
     }
 
+    public string? CopyFeedback
+    {
+        get => _copyFeedback;
+        private set => SetProperty(ref _copyFeedback, value);
+    }
+
     public ICommand ConvertCommand { get; }
     public ICommand RefreshCommand { get; }
     public RelayCommand CopyResultCommand { get; }
@@ -122,12 +137,14 @@ public class CurrencyConverterViewModel : ObservableObject
             _lastResult = result;
             ErrorMessage = null;
             CopyResultCommand.RaiseCanExecuteChanged();
+            CopyFeedback = null;
         }
         catch (Exception ex)
         {
             ErrorMessage = ex.Message;
             _lastResult = null;
             CopyResultCommand.RaiseCanExecuteChanged();
+            CopyFeedback = null;
         }
         finally
         {
@@ -170,7 +187,10 @@ public class CurrencyConverterViewModel : ObservableObject
     private void CopyResult()
     {
         if (_lastResult is null) return;
-        var text = _lastResult.TargetAmount.ToString("0.####", _culture);
+        var text = _lastResult.TargetAmount.ToString("0.####", CultureInfo.InvariantCulture);
         _clipboardService.SetText(text);
+        CopyFeedback = "Valor copiado";
+        _feedbackTimer.Stop();
+        _feedbackTimer.Start();
     }
 }

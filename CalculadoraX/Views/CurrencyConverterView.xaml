@@ -63,6 +63,11 @@
                     </DockPanel>
                     <TextBlock Text="{Binding ResultText}" FontSize="36" FontWeight="Bold" />
                     <TextBlock Text="{Binding LastUpdated, StringFormat='Datos al {0}'}" Margin="0 8 0 0" />
+                    <TextBlock Text="{Binding CopyFeedback}"
+                               Foreground="{StaticResource PrimaryBrush}"
+                               FontSize="14"
+                               Margin="0 6 0 0"
+                               Visibility="{Binding CopyFeedback, Converter={StaticResource StringToVisibilityConverter}}" />
                 </StackPanel>
             </Border>
         </StackPanel>

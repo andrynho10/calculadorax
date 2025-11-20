@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows.Input;
-using CalculadoraX.Models;
 using CalculadoraX.Services;
+using ModelInputMode = CalculadoraX.Models.InputMode;
 
 namespace CalculadoraX.ViewModels;
 
@@ -11,7 +11,7 @@ public class OrderCalculationViewModel : ObservableObject
     private readonly CultureInfo _culture = new("es-CL");
 
     private string _inputValue = string.Empty;
-    private InputMode _selectedMode = InputMode.Gross;
+    private ModelInputMode _selectedMode = ModelInputMode.Gross;
     private string _grossText = "—";
     private string _netText = "—";
     private string _taxText = "—";
@@ -30,7 +30,7 @@ public class OrderCalculationViewModel : ObservableObject
         set => SetProperty(ref _inputValue, value);
     }
 
-    public InputMode SelectedMode
+    public ModelInputMode SelectedMode
     {
         get => _selectedMode;
         set => SetProperty(ref _selectedMode, value);

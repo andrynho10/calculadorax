@@ -137,7 +137,7 @@ public class HonorariumCalculationViewModel : ObservableObject
     private void CopyAmount(decimal? amount)
     {
         if (amount is null) return;
-        var text = amount.Value.ToString("0.##", CultureInfo.InvariantCulture);
+        var text = amount.Value.ToString("0.##", _culture);
         _clipboardService.SetText(text);
         CopyFeedback = "Monto copiado";
         _feedbackTimer.Stop();

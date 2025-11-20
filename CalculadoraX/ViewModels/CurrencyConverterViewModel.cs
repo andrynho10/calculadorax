@@ -187,7 +187,7 @@ public class CurrencyConverterViewModel : ObservableObject
     private void CopyResult()
     {
         if (_lastResult is null) return;
-        var text = _lastResult.TargetAmount.ToString("0.####", CultureInfo.InvariantCulture);
+        var text = _lastResult.TargetAmount.ToString("0.####", _culture);
         _clipboardService.SetText(text);
         CopyFeedback = "Valor copiado";
         _feedbackTimer.Stop();

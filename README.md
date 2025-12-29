@@ -5,7 +5,7 @@ Aplicación WPF para calcular bruto o neto en órdenes de compra t boletas de ho
 ## Requisitos
 
 - Windows 10/11
-- [.NET SDK 8.0](https://dotnet.microsoft.com/download) con el componente **.NET Desktop Development** (incluye Windows Desktop Runtime/WPF)
+- [.NET SDK 10.0](https://dotnet.microsoft.com/download) con el componente **.NET Desktop Development** (incluye Windows Desktop Runtime/WPF)
 
 ## Ejecución local para desarrollo
 

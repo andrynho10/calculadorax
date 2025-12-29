@@ -124,7 +124,7 @@ public class OrderCalculationViewModel : ObservableObject
         CopyFeedback = null;
     }
 
-    private string FormatCurrency(decimal value) => string.Format(_culture, "{0:C0}", value);
+    private string FormatCurrency(decimal value) => string.Format(_culture, "{0:N2}", value);
 
     private bool TryParseInput(out decimal value)
     {
